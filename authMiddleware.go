@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 
+	"github.com/degananda/ridesharing/model"
 	jwt_lib "github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
 	"github.com/gin-gonic/gin"
@@ -22,17 +23,13 @@ func Auth(secret string) gin.HandlerFunc {
 			b := ([]byte(secret))
 			requestURL := c.Request.RequestURI
 			claims := token.Claims.(jwt_lib.MapClaims)
-			loggedUser.Id = claims["Id"].(string)
-			loggedUser.Type = claims["userType"].(string)
-			loggedDriver.id = loggedUser.Id
-
-			if loggedUser.Type == "driver" {
-				loggedDriver.id = loggedUser.Id
+			if claims["userType"].(string) == "driver" {
+				model.LoggedInDriver = &model.Driver{claims["Id"].(string)}
 			} else {
-				loggedPassenger.id = loggedUser.Id
+				model.LoggedInPassenger = &model.Passenger{claims["Id"].(string)}
 			}
 
-			if checkAuth(loggedUser.Type, splitURI(requestURL)) {
+			if checkAuth(claims["userType"].(string), splitURI(requestURL)) {
 				return b, nil
 
 			} else {

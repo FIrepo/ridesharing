@@ -1,19 +1,29 @@
-package main
+package model
+
+/**
+	Legend
+	Request Status
+	[0] = Available
+	[1] = Accepted
+	[2] = Canceled
+	[3] = Trip Start
+	[4] = Trip Finish
+**/
 
 /*
 	Struct Model & Class
 */
 type Driver struct {
-	id string
+	Id string
 }
 
 type Passenger struct {
-	id string
+	Id string
 }
 
 var (
-	loggedDriver    Driver
-	loggedPassenger Passenger
+	LoggedInDriver    DriverInterface
+	LoggedInPassenger PassangerInterface
 )
 
 /*
@@ -29,10 +39,6 @@ type SendRequest struct {
 	Lon string `json:"lon" binding:"required"`
 }
 
-type AcceptRequest struct {
-	IdRequest string `json:"IdRequest" binding:"required"`
-}
-
 type SendLocation struct {
 	Lat string `json:"lat" binding:"required"`
 	Lon string `json:"lon" binding:"required"`
@@ -46,6 +52,11 @@ type ReceiveLocation struct {
 type EndTrip struct {
 	Distance string `json:"distance" binding:"required"`
 	Time     string `json:"time" binding:"required"`
+}
+
+type LoginCLaim struct {
+	Id       string
+	Password string
 }
 
 /* end of json body model */
@@ -72,14 +83,5 @@ type PassengerRequest struct {
 */
 
 type PwdTmp struct {
-	password string
+	Password string
 }
-
-type UserSingleton struct {
-	Id   string
-	Type string
-}
-
-var (
-	loggedUser UserSingleton
-)
