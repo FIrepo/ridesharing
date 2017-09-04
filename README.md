@@ -40,7 +40,7 @@ go run *.go
 ## Built With
 
 * [Gin-gonic](https://github.com/gin-gonic/gin) - Framework
-* [JWT](github.com/dgrijalva/jwt-go) - Auth
+* [JWT](http://github.com/dgrijalva/jwt-go) - Auth
 * [Mysql](https://github.com/go-sql-driver/mysql) - Driver
 * [Bcrypt](golang.org/x/crypto/bcrypt) - Encyrpt (Base 10)
 
