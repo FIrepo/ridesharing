@@ -30,8 +30,8 @@ var (
 	JSON Body Model
 */
 type Login struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 type SendRequest struct {
@@ -65,6 +65,7 @@ type LoginCLaim struct {
 	JSON Response Model
 **/
 type Request struct {
+	Id    string `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 	Lat   string `json:"lat"`

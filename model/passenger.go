@@ -124,7 +124,7 @@ func (myPassenger *Passenger) SendRequest(idDriver string, lat string, lon strin
 	}
 
 	if !anyError {
-		return false, err
+		return true, err
 	} else {
 		return false, err
 	}

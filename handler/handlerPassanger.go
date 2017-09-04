@@ -36,7 +36,7 @@ func PassengerLogin() gin.HandlerFunc {
 					token.Claims = jwt.MapClaims{
 						"Id":       userId,
 						"exp":      time.Now().Add(time.Hour * 1).Unix(),
-						"userType": "driver",
+						"userType": "passenger",
 					}
 
 					/*
@@ -165,9 +165,13 @@ func PassengerReceiveRequest() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		errfree, request, issue := model.LoggedInPassenger.ReceiveRequest()
 		if errfree {
-			c.JSON(200, request)
-		} else {
 			c.JSON(200, gin.H{
+				"status": "1",
+				"msg":    "success",
+				"data":   request,
+			})
+		} else {
+			c.JSON(400, gin.H{
 				"status": "-1",
 				"msg":    "failed",
 				"issue":  issue,
@@ -182,9 +186,13 @@ func PassengerReceiveLocation() gin.HandlerFunc {
 		errfree, request, issue := model.LoggedInPassenger.ReceiveLocation(c.Param("id"))
 		fmt.Println(request)
 		if errfree {
-			c.JSON(200, request)
-		} else {
 			c.JSON(200, gin.H{
+				"status": "1",
+				"msg":    "success",
+				"data":   request,
+			})
+		} else {
+			c.JSON(400, gin.H{
 				"status": "-1",
 				"msg":    "failed",
 				"issue":  issue,

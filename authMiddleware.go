@@ -42,8 +42,9 @@ func Auth(secret string) gin.HandlerFunc {
 		if err != nil {
 			c.Abort()
 			c.JSON(401, gin.H{
-				"msg":   "Invalid Token",
-				"issue": issue,
+				"msg":    "Invalid Token",
+				"status": "-1",
+				"issue":  issue,
 			})
 		}
 	}

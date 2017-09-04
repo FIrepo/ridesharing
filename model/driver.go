@@ -104,7 +104,7 @@ func (myDriver *Driver) ReceiveRequest() (bool, []Request, error) {
 		request  Request
 		requests []Request
 	)
-	stmt, err := Db.Query("SELECT passenger.name,passenger.email,request.lat,request.lon FROM request INNER JOIN passenger ON request.id_passenger = passenger.id WHERE request.status = 0 AND request.id_driver = ?;", myDriver.Id)
+	stmt, err := Db.Query("SELECT request.id,passenger.name,passenger.email,request.lat,request.lon FROM request INNER JOIN passenger ON request.id_passenger = passenger.id WHERE request.status = 0 AND request.id_driver = ?;", myDriver.Id)
 
 	if err != nil {
 		log.Fatal(err)
@@ -113,7 +113,7 @@ func (myDriver *Driver) ReceiveRequest() (bool, []Request, error) {
 	defer stmt.Close()
 	count := 0
 	for stmt.Next() {
-		stmt.Scan(&request.Name, &request.Email, &request.Lat, &request.Lon)
+		stmt.Scan(&request.Id, &request.Name, &request.Email, &request.Lat, &request.Lon)
 		requests = append(requests, request)
 		count++
 	}
@@ -131,7 +131,7 @@ func (myDriver *Driver) ReceiveRequest() (bool, []Request, error) {
 */
 func (myDriver *Driver) AcceptRequest(idRequest string) (bool, error) {
 	var anyErr bool = false
-	stmt, err := Db.Prepare("UPDATE request SET id_driver = ?, status = ? WHERE id = ? AND status = 0;")
+	stmt, err := Db.Prepare("UPDATE request SET status = ? WHERE id = ? AND status = 0 AND id_driver = ?;")
 
 	if err != nil {
 		log.Fatal(err)
@@ -139,7 +139,7 @@ func (myDriver *Driver) AcceptRequest(idRequest string) (bool, error) {
 	}
 	defer stmt.Close()
 
-	r, err := stmt.Exec(myDriver.Id, 1, idRequest)
+	r, err := stmt.Exec(1, idRequest, myDriver.Id)
 
 	if err != nil {
 		log.Fatal(err)

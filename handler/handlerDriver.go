@@ -123,9 +123,13 @@ func DriverReceiveRequest() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		errfree, request, issue := model.LoggedInDriver.ReceiveRequest()
 		if errfree {
-			c.JSON(200, request)
-		} else {
 			c.JSON(200, gin.H{
+				"status": "1",
+				"msg":    "success",
+				"data":   request,
+			})
+		} else {
+			c.JSON(400, gin.H{
 				"status": "-1",
 				"msg":    "failed",
 				"issue":  issue.Error(),
@@ -144,7 +148,7 @@ func DriverAcceptRequest() gin.HandlerFunc {
 				"msg":    "success",
 			})
 		} else {
-			c.JSON(200, gin.H{
+			c.JSON(400, gin.H{
 				"status": "-1",
 				"msg":    "failed",
 				"issue":  issue.Error(),
@@ -216,7 +220,7 @@ func DriverEndTrip() gin.HandlerFunc {
 		// make sure lat is float64
 		_, err = strconv.ParseFloat(endTripInput.Distance, 64)
 		// make sure lon is unsign integer 64 (must be positive int)
-		_, err = strconv.ParseUint(endTripInput.Distance, 10, 64)
+		_, err = strconv.ParseUint(endTripInput.Time, 10, 64)
 		if err == nil {
 			errfree, issue := model.LoggedInDriver.EndTrip(c.Param("id"), endTripInput.Distance, endTripInput.Time)
 			if errfree {
