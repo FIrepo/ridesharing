@@ -13,7 +13,7 @@ password encryoted with bcrypt (base 10).
 
 # Installing
 
-1.Install ridesharin api
+1.Install ridesharing api
 
 ```
 go get github.com/degananda/ridesharing
