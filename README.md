@@ -1,4 +1,5 @@
 # Ridesharing API
+Rest API using gin , jwt and mysql.
 
 You can found API Documentation in here : http://demo.degananda.com/ridesharing/
 
